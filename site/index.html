@@ -1,37 +1,60 @@
-<!DOCTYPE html>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>NGINX on Railway</title>
-    <meta name="description" content="Choo Choo!" />
-
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel="stylesheet" href="/styles.css?v=1.0" />
-  </head>
-
+<html>
   <body>
-    <main>
-      <img
-        src="https://railway.app/brand/logo-light.svg"
-        alt="Railway logo"
-        class="logo"
-      />
+    <canvas id="canvas"></canvas>
+    <script>
+            const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
 
-      <h1>NGINX on Railway</h1>
+      let xPos = 0; // Initial x position of the stick figure
+      let yPos = 0; // Initial y position of the stick figure
 
-      <p>
-        Choo Choo! This is an example of an NGINX static site running on
-        Railway.
-        <a
-          href="https://github.com/railwayapp/starters/tree/master/examples/nginx"
-          >View source</a
-        >.
-      </p>
-    </main>
+      function drawStickFigure() {
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    <script src="/script.js"></script>
+        // Draw the stick figure at the current position
+        ctx.beginPath();
+        ctx.arc(xPos, yPos, 10, 0, 2 * Math.PI); // Head
+  ctx.moveTo(xPos, yPos + 10);
+        ctx.moveTo(xPos, yPos);
+        ctx.lineTo(xPos, yPos + 50); // Body
+        ctx.moveTo(xPos, yPos + 25);
+        ctx.lineTo(xPos - 10, yPos + 10); // Left arm
+        ctx.moveTo(xPos, yPos + 25);
+        ctx.lineTo(xPos + 10, yPos + 10); // Right arm
+        ctx.moveTo(xPos, yPos + 50);
+        ctx.lineTo(xPos - 10, yPos + 75); // Left leg
+        ctx.moveTo(xPos, yPos + 50);
+        ctx.lineTo(xPos + 10, yPos + 75); // Right leg
+        ctx.stroke();
+      }
+
+      function moveStickFigure(event) {
+        // Use the arrow keys to move the stick figure
+        switch (event.key) {
+          case 'ArrowUp':
+            yPos -= 10; // Move up
+            break;
+          case 'ArrowDown':
+            yPos += 10; // Move down
+            break;
+          case 'ArrowLeft':
+            xPos -= 10; // Move left
+            break;
+          case 'ArrowRight':
+            xPos += 10; // Move right
+            break;
+        }
+
+        // Redraw the stick figure at the new position
+        drawStickFigure();
+      }
+
+      // Listen for key press events
+      document.addEventListener('keydown', moveStickFigure);
+
+      // Draw the initial stick figure
+      drawStickFigure();
+    </script>
   </body>
 </html>
